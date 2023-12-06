@@ -36,16 +36,38 @@ export class App extends Component {
     }));
   };
 
+  changeFilter = newName => {
+    this.setState({
+      filter: newName,
+    });
+  };
+
+  handleDelete = contactsId => {
+    this.setState(prevState => {
+      return {
+        contacts: prevState.contacts.filter(
+          contact => contact.id !== contactsId
+        ),
+      };
+    });
+  };
+
   render() {
-    const { filter } = this.state;
+    const { filter, contacts } = this.state;
+    const filteredContacts = contacts.filter(contact =>
+      contact.name.toLowerCase().includes(filter.toLowerCase())
+    );
     return (
       <SectionPhonebook>
         <SectionItem>Phonebook</SectionItem>
         <ContactForm addInfo={this.inputItem} />
 
         <SectionContact>Contacts</SectionContact>
-        <Filter value={filter} />
-        <ContactList filter={filter} />
+        <Filter value={filter} onChange={this.changeFilter} />
+        <ContactList
+          onDeleteContact={this.handleDelete}
+          visibleItems={filteredContacts}
+        />
       </SectionPhonebook>
     );
   }

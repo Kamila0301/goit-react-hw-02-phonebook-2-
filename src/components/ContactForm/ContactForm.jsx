@@ -17,43 +17,46 @@ const SignupSchema = Yup.object().shape({
 
 export const ContactForm = ({ addInfo, name, number }) => {
   return (
-    <Formik>
-      initialValues=
-      {{
-        name: name,
-        number: number,
+    <Formik
+      initialValues={{
+        name: name || ' ',
+        number: number || ' ',
       }}
       validationSchema={SignupSchema}
-      onSubmit=
-      {(values, actions) => {
+      onSubmit={(values, actions) => {
         addInfo(values);
         actions.resetForm();
       }}
-      <StyledForm>
-        <label>
-          <p>Name</p>
-          <input
-            type="text"
-            name="name"
-            pattern="^[a-zA-Zа-яА-Я]+(([' \\-][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
-            value={this.initialValues.name}
-          />
-          <StyledError type="text" name="name" component="div" />
-        </label>
+    >
+      {({ values, handleChange }) => (
+        <StyledForm>
+          <label>
+            <p>Name</p>
+            <input
+              type="text"
+              name="name"
+              pattern="^[a-zA-Zа-яА-Я]+(([' \\-][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
+              value={values.name}
+              onChange={handleChange}
+            />
+            <StyledError type="text" name="name" component="div" />
+          </label>
 
-        <label>
-          <p>Number</p>
-          <input
-            type="tel"
-            name="number"
-            pattern="\\+?\\d{1,4}?[ .\\-\\s]?\\(?\\d{1,3}?\\)?[ .\\-\\s]?\\d{1,4}[ .\\-\\s]?\\d{1,4}[ .\\-\\s]?\\d{1,9}"
-            value={this.initialValues.number}
-          />
-          <StyledError type="tel" name="number" component="div" />
-        </label>
+          <label>
+            <p>Number</p>
+            <input
+              type="tel"
+              name="number"
+              pattern="\\+?\\d{1,4}?[ .\\-\\s]?\\(?\\d{1,3}?\\)?[ .\\-\\s]?\\d{1,4}[ .\\-\\s]?\\d{1,4}[ .\\-\\s]?\\d{1,9}"
+              value={values.number}
+              onChange={handleChange}
+            />
+            <StyledError type="tel" name="number" component="div" />
+          </label>
 
-        <button type="submit">Add contact</button>
-      </StyledForm>
+          <button type="submit">Add contact</button>
+        </StyledForm>
+      )}
     </Formik>
   );
 };
